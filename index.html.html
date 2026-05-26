@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bibliografía — TFG</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --ink: #1a1814;
+    --ink-muted: #6b6760;
+    --ink-faint: #c2bfb8;
+    --accent: #b85c2e;
+    --accent-light: #f0e8e2;
+    --border: #e4e0d8;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  header {
+    background: var(--ink);
+    color: #f7f5f0;
+    padding: 36px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 20px,
+      rgba(255,255,255,0.015) 20px,
+      rgba(255,255,255,0.015) 21px
+    );
+  }
+
+  .header-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    margin-bottom: 10px;
+    position: relative;
+  }
+
+  header h1 {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(22px, 5vw, 30px);
+    font-weight: 400;
+    line-height: 1.3;
+    position: relative;
+    color: #f7f5f0;
+  }
+
+  header p {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #9e9b94;
+    position: relative;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    padding: 20px 0 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter-label {
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-weight: 500;
+    margin-right: 4px;
+  }
+
+  .filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  .count-badge {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .ref-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .ref-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    transition: box-shadow 0.15s;
+  }
+
+  .ref-card:hover {
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .ref-num {
+    font-family: 'EB Garamond', serif;
+    font-size: 17px;
+    color: var(--accent);
+    min-width: 28px;
+    font-weight: 500;
+    padding-top: 1px;
+    user-select: none;
+  }
+
+  .ref-body { flex: 1; min-width: 0; }
+
+  .ref-authors {
+    font-size: 13px;
+    color: var(--ink-muted);
+    font-style: italic;
+    font-family: 'EB Garamond', serif;
+    line-height: 1.4;
+    margin-bottom: 3px;
+  }
+
+  .ref-title {
+    font-size: 14.5px;
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 4px;
+  }
+
+  .ref-source {
+    font-size: 12.5px;
+    color: var(--ink-muted);
+    line-height: 1.4;
+  }
+
+  .ref-doi {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 7px;
+    font-size: 11.5px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid var(--accent-light);
+    background: var(--accent-light);
+    padding: 3px 9px;
+    border-radius: 20px;
+    transition: background 0.15s;
+  }
+
+  .ref-doi:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .ref-url {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 7px;
+    font-size: 11.5px;
+    color: #4a7c8e;
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid #daeaf0;
+    background: #f0f7fa;
+    padding: 3px 9px;
+    border-radius: 20px;
+    transition: background 0.15s;
+  }
+
+  .ref-url:hover {
+    background: #4a7c8e;
+    color: white;
+    border-color: #4a7c8e;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  .tag-cade { background: #e8f0fe; color: #2c5fad; }
+  .tag-cadx { background: #e6f4ea; color: #1e6b3a; }
+  .tag-epidemiology { background: #fef3e2; color: #9a5000; }
+  .tag-methodology { background: #f3e8fd; color: #6a1fa8; }
+  .tag-guideline { background: #fce8ec; color: #9b2335; }
+  .tag-general { background: var(--bg); color: var(--ink-muted); }
+
+  .hidden { display: none !important; }
+
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">Trabajo de Fin de Grado · Medicina</div>
+  <h1>Bibliografía</h1>
+  <p>Inteligencia artificial en colonoscopia: sistemas CADe y CADx</p>
+</header>
+
+<div class="container">
+  <div class="filter-bar">
+    <span class="filter-label">Filtrar:</span>
+    <button class="filter-btn active" onclick="filterRefs('all', this)">Todas</button>
+    <button class="filter-btn" onclick="filterRefs('epidemiology', this)">Epidemiología</button>
+    <button class="filter-btn" onclick="filterRefs('cade', this)">CADe</button>
+    <button class="filter-btn" onclick="filterRefs('cadx', this)">CADx</button>
+    <button class="filter-btn" onclick="filterRefs('guideline', this)">Guías clínicas</button>
+    <button class="filter-btn" onclick="filterRefs('methodology', this)">Metodología</button>
+    <span class="count-badge" id="count-badge">40 referencias</span>
+  </div>
+
+  <div class="ref-list" id="ref-list"></div>
+
+  <footer>
+    Referencias formateadas según el estilo Vancouver · <span id="year"></span>
+  </footer>
+</div>
+
+<script>
+const refs = [
+  { n:1, tag:'epidemiology', authors:'Morgan E, Arnold M, Gini A, et al.', title:'Global burden of colorectal cancer in 2020 and 2040: incidence and mortality estimates from GLOBOCAN.', source:'Gut. 2023;72(2):338–44.', doi:'10.1136/gutjnl-2022-327736' },
+  { n:2, tag:'epidemiology', authors:'Chen X, Tian R, Chen Z, et al.', title:'Global burden of colorectal cancer from 1990 to 2021: a systematic analysis from the Global Burden of Disease Study 2021.', source:'Front Oncol. 2025;15:1676855.', doi:'10.3389/fonc.2025.1676855' },
+  { n:3, tag:'epidemiology', authors:'Red Española de Registros de Cáncer.', title:'Cáncer colorrectal en España [Informe técnico].', source:'REDECAN; 2020.', url:'https://redecan.org/es/publicaciones/34/cancer-colorrectal-en-espana' },
+  { n:4, tag:'epidemiology', authors:'REACCT Collaborative, Zaborowski AM, Abdile A, et al.', title:'Characteristics of Early-Onset vs Late-Onset Colorectal Cancer: A Review.', source:'JAMA Surg. 2021;156(9):865.', doi:'10.1001/jamasurg.2021.2380' },
+  { n:5, tag:'epidemiology', authors:'Sinicrope FA.', title:'Increasing Incidence of Early-Onset Colorectal Cancer.', source:'N Engl J Med. 2022;386(16):1547–58.', doi:'10.1056/NEJMra2200869' },
+  { n:6, tag:'epidemiology', authors:'Wang Y, Nguyen LH, Mehta RS, et al.', title:'Association Between the Sulfur Microbial Diet and Risk of Colorectal Cancer.', source:'JAMA Netw Open. 2021;4(11):e2134308.', doi:'10.1001/jamanetworkopen.2021.34308' },
+  { n:7, tag:'epidemiology', authors:'Gong J, Hutter C, Baron JA, et al.', title:'A Pooled Analysis of Smoking and Colorectal Cancer: Timing of Exposure and Interactions with Environmental Factors.', source:'Cancer Epidemiol Biomarkers Prev. 2012;21(11):1974–85.', doi:'10.1158/1055-9965.EPI-12-0692' },
+  { n:8, tag:'epidemiology', authors:'Bjorge T, Engeland A, Tverdal A, Smith GD.', title:'Body Mass Index in Adolescence in Relation to Cause-specific Mortality.', source:'Am J Epidemiol. 2008;168(1):30–7.', doi:'10.1093/aje/kwn096' },
+  { n:9, tag:'cade', authors:'Makar J, Abdelmalak J, Con D, et al.', title:'Use of artificial intelligence improves colonoscopy performance in adenoma detection: a systematic review and meta-analysis.', source:'Gastrointest Endosc. 2025;101(1):68–81.', doi:'10.1016/j.gie.2024.08.033' },
+  { n:10, tag:'cade', authors:'Bernhofer S, Prosenz J, Venturi D, Maieron A.', title:'The impact of artificial intelligence on the adenoma detection rate: Comparison between experienced, intermediate and trainee endoscopists.', source:'Wien Klin Wochenschr. 2026;138(1):1–8.', doi:'10.1007/s00508-025-02561-3' },
+  { n:11, tag:'guideline', authors:'National Comprehensive Cancer Network.', title:'NCCN Clinical Practice Guidelines in Oncology: Colorectal Cancer Screening. Version 1.2026.', source:'NCCN; 2026 Apr.', url:'https://www.nccn.org/professionals/physician_gls/pdf/colorectal_screening.pdf' },
+  { n:12, tag:'guideline', authors:'Fernández Sánchez B, de Haro Gazquez D, López Salas M, et al.', title:'Estudio sobre los programas de cribado de cáncer colorrectal: Conocimiento, actitudes y comportamientos de las personas de 50 a 69 años.', source:'AECC; 2022 Nov.', url:'https://observatorio.contraelcancer.es/sites/default/files/informes/Informe%20cribado_final.pdf' },
+  { n:13, tag:'cade', authors:'Yamaguchi D, Shimoda R, Miyahara K, et al.', title:'Impact of an artificial intelligence-aided endoscopic diagnosis system on improving endoscopy quality for trainees in colonoscopy: Prospective, randomized, multicenter study.', source:'Dig Endosc. 2024;36(1):40–8.', doi:'10.1111/den.14573' },
+  { n:14, tag:'cade', authors:'Lau LHS, Ho JCL, Lai JCT, et al.', title:'Effect of Real-Time Computer-Aided Polyp Detection System (ENDO-AID) on Adenoma Detection in Endoscopists-in-Training: A Randomized Trial.', source:'Clin Gastroenterol Hepatol. 2024;22(3):630–641.', doi:'10.1016/j.cgh.2023.10.019' },
+  { n:15, tag:'guideline', authors:'Rees CJ, Bevan R, Zimmermann-Fraedrich K, et al.', title:'Expert opinions and scientific evidence for colonoscopy key performance indicators.', source:'Gut. 2016;65(12):2045–60.', doi:'10.1136/gutjnl-2016-312043' },
+  { n:16, tag:'cade', authors:'Zhao S, Wang S, Pan P, et al.', title:'Magnitude, Risk Factors, and Factors Associated With Adenoma Miss Rate of Tandem Colonoscopy: A Systematic Review and Meta-analysis.', source:'Gastroenterology. 2019;156(6):1661–1674.', doi:'10.1053/j.gastro.2019.01.260' },
+  { n:17, tag:'cade', authors:'Miyaguchi K, Tsuzuki Y, Hirooka N, et al.', title:'Linked-color imaging with or without artificial intelligence for adenoma detection: a randomized trial.', source:'Endoscopy. 2024;56(5):376–83.', doi:'10.1055/a-2239-8145' },
+  { n:18, tag:'cade', authors:'Baile-Maxía S, Mangas-Sanjuan C, Sala-Miquel N, et al.', title:'Incidence, characteristics, and predictive factors of post-colonoscopy colorectal cancer.', source:'United Eur Gastroenterol J. 2024;12(3):309–18.', doi:'10.1002/ueg2.12512' },
+  { n:19, tag:'general', authors:'Tadros M, Anderson JC.', title:'Serrated Polyps: Clinical Implications and Future Directions.', source:'Curr Gastroenterol Rep. 2013;15(9):342.', doi:'10.1007/s11894-013-0342-4' },
+  { n:20, tag:'general', authors:'Forsberg A, Widman L, Bottai M, et al.', title:'Postcolonoscopy Colorectal Cancer in Sweden From 2003 to 2012: Survival, Tumor Characteristics, and Risk Factors.', source:'Clin Gastroenterol Hepatol. 2020;18(12):2724–2733.', doi:'10.1016/j.cgh.2020.06.010' },
+  { n:21, tag:'general', authors:'Corley DA, Jensen CD, Marks AR, et al.', title:'Adenoma Detection Rate and Risk of Colorectal Cancer and Death.', source:'N Engl J Med. 2014;370(14):1298–306.', doi:'10.1056/NEJMoa1309086' },
+  { n:22, tag:'general', authors:'Tatler BW.', title:'The central fixation bias in scene viewing: Selecting an optimal viewing position independently of motor biases and image feature distributions.', source:'J Vis. 2007;7(14):4.', doi:'10.1167/7.14.4' },
+  { n:23, tag:'general', authors:'Munroe CA, Lee P, Copland A, et al.', title:'A tandem colonoscopy study of adenoma miss rates during endoscopic training: a venture into uncharted territory.', source:'Gastrointest Endosc. 2012;75(3):561–7.', doi:'10.1016/j.gie.2011.11.037' },
+  { n:24, tag:'general', authors:'Gianotti RJ, Oza SS, Tapper EB, et al.', title:'A Longitudinal Study of Adenoma Detection Rate in Gastroenterology Fellowship Training.', source:'Dig Dis Sci. 2016;61(10):2831–7.', doi:'10.1007/s10620-016-4228-9' },
+  { n:25, tag:'guideline', authors:'Sultan S, Shung DL, Kolb JM, et al.', title:'AGA Living Clinical Practice Guideline on Computer-Aided Detection–Assisted Colonoscopy.', source:'Gastroenterology. 2025;168(4):691–700.', doi:'10.1053/j.gastro.2025.01.002' },
+  { n:26, tag:'cade', authors:'Repici A, Badalamenti M, Maselli R, et al.', title:'Efficacy of Real-Time Computer-Aided Detection of Colorectal Neoplasia in a Randomized Trial.', source:'Gastroenterology. 2020;159(2):512–520.', doi:'10.1053/j.gastro.2020.04.062' },
+  { n:27, tag:'cade', authors:'Chadha N, Healey M, Puri P, et al.', title:'Computer-Aided Detection-Assisted Colonoscopy Teaches Gaze to Improve Adenoma Detection in First-Year Gastroenterology Fellows.', source:'JGH Open. 2026;10(3):e70379.', doi:'10.1002/jgh3.70379' },
+  { n:28, tag:'cade', authors:'Barua I, Vinsard DG, Jodal HC, et al.', title:'Artificial intelligence for polyp detection during colonoscopy: a systematic review and meta-analysis.', source:'Endoscopy. 2021;53(03):277–84.', doi:'10.1055/a-1201-7165' },
+  { n:29, tag:'cadx', authors:'Rondonotti E, Bergna IMB, Paggi S, et al.', title:'White light computer-aided optical diagnosis of diminutive colorectal polyps in routine clinical practice.', source:'Endosc Int Open. 2024;12(5):E676–83.', doi:'10.1055/a-2303-0922' },
+  { n:30, tag:'guideline', authors:'Kaltenbach T, Anderson JC, Burke CA, et al.', title:'Endoscopic Removal of Colorectal Lesions: Recommendations by the US Multi-Society Task Force on Colorectal Cancer.', source:'Am J Gastroenterol. 2020;115(3):435–64.', doi:'10.14309/ajg.0000000000000555' },
+  { n:31, tag:'cadx', authors:'Bernhofer S, Prosenz J, Duller C, et al.', title:'The Augmented Colonoscopy With Computer-Aided Polyp Characterization Study: Prospective Study Comparing the Diagnostic Reliability of Optical Diagnosis of Trainees With Experts Without Artificial Intelligence.', source:'Am J Gastroenterol. 2026;121(3):661–70.', doi:'10.14309/ajg.0000000000003558' },
+  { n:32, tag:'methodology', authors:'Page MJ, McKenzie JE, Bossuyt PM, et al.', title:'The PRISMA 2020 statement: an updated guideline for reporting systematic reviews.', source:'BMJ. 2021 Mar 29;n71.', doi:'10.1136/bmj.n71' },
+  { n:33, tag:'methodology', authors:'Ouzzani M, Hammady H, Fedorowicz Z, Elmagarmid A.', title:'Rayyan—a web and mobile app for systematic reviews.', source:'Syst Rev. 2016;5(1):210.', doi:'10.1186/s13643-016-0384-4' },
+  { n:34, tag:'cade', authors:'Xu AA, Catania V, Ho L, et al.', title:'Pragmatic Implementation Study of a Computer-Aided Detection Device on Colonoscopy Outcomes at a Trainee-Dominated Academic County Hospital.', source:'Dig Dis Sci. 2026;71(2):475–85.', doi:'10.1007/s10620-025-09352-w' },
+  { n:35, tag:'cade', authors:'Chang PW, Nguyen DD, Kong N, et al.', title:'Impact of artificial intelligence-assisted colonoscopy on gastroenterology fellow performance: a pragmatic randomized controlled trial.', source:'Gastrointest Endosc. 2025.', doi:'10.1016/j.gie.2025.09.045' },
+  { n:36, tag:'cade', authors:'Khouri A, Dickson C, Green A, et al.', title:'Effect of computer aided detection device on the adenoma detection rate and serrated detection rate among trainee fellows.', source:'JGH Open. 2024;8(9):e70018.', doi:'10.1002/jgh3.70018' },
+  { n:37, tag:'cade', authors:'Lagström RMB, Bräuner KB, Bielik J, et al.', title:'Improvement in adenoma detection rate by artificial intelligence-assisted colonoscopy: Multicenter quasi-randomized controlled trial.', source:'Endosc Int Open. 2025;13:a25215169.', doi:'10.1055/a-2521-5169' },
+  { n:38, tag:'cade', authors:'Yao L, Li X, Wu Z, et al.', title:'Effect of artificial intelligence on novice-performed colonoscopy: a multicenter randomized controlled tandem study.', source:'Gastrointest Endosc. 2024;99(1):91–99.', doi:'10.1016/j.gie.2023.07.044' },
+  { n:39, tag:'cadx', authors:'Sato K, Kuramochi M, Tsuchiya A, et al.', title:'Multicentre study to assess the performance of an artificial intelligence instrument to support qualitative diagnosis of colorectal polyps.', source:'BMJ Open Gastroenterol. 2024;11(1).', doi:'10.1136/bmjgast-2024-001553' },
+  { n:40, tag:'general', authors:'Naciones Unidas.', title:'La Agenda para el Desarrollo Sostenible 2030.', source:'Nueva York: Naciones Unidas; 2023.', url:'https://www.un.org/sustainabledevelopment/es/development-agenda/' },
+];
+
+const tagLabels = {
+  cade: 'CADe', cadx: 'CADx', epidemiology: 'Epidemiología',
+  methodology: 'Metodología', guideline: 'Guía clínica', general: 'General'
+};
+
+function renderRefs(data) {
+  const list = document.getElementById('ref-list');
+  list.innerHTML = '';
+  data.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'ref-card';
+    card.dataset.tag = r.tag;
+    const link = r.doi
+      ? `<a class="ref-doi" href="https://doi.org/${r.doi}" target="_blank">↗ DOI</a>`
+      : r.url ? `<a class="ref-url" href="${r.url}" target="_blank">↗ Enlace</a>` : '';
+    card.innerHTML = `
+      <div class="ref-num">${r.n}.</div>
+      <div class="ref-body">
+        <span class="tag tag-${r.tag}">${tagLabels[r.tag]}</span>
+        <div class="ref-authors">${r.authors}</div>
+        <div class="ref-title">${r.title}</div>
+        <div class="ref-source">${r.source}</div>
+        ${link}
+      </div>`;
+    list.appendChild(card);
+  });
+  document.getElementById('count-badge').textContent = data.length + ' referencias';
+}
+
+function filterRefs(tag, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = tag === 'all' ? refs : refs.filter(r => r.tag === tag);
+  renderRefs(filtered);
+}
+
+document.getElementById('year').textContent = new Date().getFullYear();
+renderRefs(refs);
+</script>
+</body>
+</html>
